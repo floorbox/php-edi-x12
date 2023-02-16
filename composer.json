@@ -17,10 +17,14 @@
     {
       "name": "Inwave Dev Team",
       "email": "info@inwave.pl"
+    },
+    {
+      "name": "Shoffstall",
+      "email": "sean@shoffstall.com"
     }
   ],
   "require": {
-    "php": "^7.3",
+    "php": "^8.1",
     "monolog/monolog": "1.*"
   },
   "require-dev": {
