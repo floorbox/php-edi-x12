@@ -16,6 +16,7 @@ class Edi
     public static $segmentMapping = [
         'AMT' => 'Mrstroz\Edi\Segments\AmtSegment',
         'B4' => 'Mrstroz\Edi\Segments\B4Segment',
+        'BCT' => 'Mrstroz\Edi\Segments\BctSegment',
         'BEG' => 'Mrstroz\Edi\Segments\BegSegment',
         'CTT' => 'Mrstroz\Edi\Segments\CttSegment',
         'CTP' => 'Mrstroz\Edi\Segments\CtpSegment',
