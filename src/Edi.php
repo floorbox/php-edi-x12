@@ -2,7 +2,6 @@
 
 namespace Mrstroz;
 
-
 use Mrstroz\Edi\Document;
 
 /**
@@ -10,7 +9,6 @@ use Mrstroz\Edi\Document;
  */
 class Edi
 {
-
     public const SEGMENT_TERMINATOR_POSITION = 105;
     public const SUBELEMENT_SEPARATOR_POSITION = 104;
     public const ELEMENT_SEPARATOR_POSITION = 3;
@@ -20,13 +18,19 @@ class Edi
         'B4' => 'Mrstroz\Edi\Segments\B4Segment',
         'BEG' => 'Mrstroz\Edi\Segments\BegSegment',
         'CTT' => 'Mrstroz\Edi\Segments\CttSegment',
+        'CTP' => 'Mrstroz\Edi\Segments\CtpSegment',
         'DTM' => 'Mrstroz\Edi\Segments\DtmSegment',
         'FOB' => 'Mrstroz\Edi\Segments\FobSegment',
+        'G39' => 'Mrstroz\Edi\Segments\G39Segment',
+        'G43' => 'Mrstroz\Edi\Segments\G43Segment',
         'GE' => 'Mrstroz\Edi\Segments\GeSegment',
         'GS' => 'Mrstroz\Edi\Segments\GsSegment',
         'IEA' => 'Mrstroz\Edi\Segments\IeaSegment',
         'ISA' => 'Mrstroz\Edi\Segments\IsaSegment',
+        'LIN' => 'Mrstroz\Edi\Segments\LinSegment',
+        'MEA' => 'Mrstroz\Edi\Segments\MeaSegment',
         'MSG' => 'Mrstroz\Edi\Segments\MsgSegment',
+        'MTX' => 'Mrstroz\Edi\Segments\MtxSegment',
         'N1' => 'Mrstroz\Edi\Segments\N1Segment',
         'N2' => 'Mrstroz\Edi\Segments\N2Segment',
         'N3' => 'Mrstroz\Edi\Segments\N3Segment',
@@ -39,6 +43,7 @@ class Edi
         'R4' => 'Mrstroz\Edi\Segments\R4Segment',
         'REF' => 'Mrstroz\Edi\Segments\RefSegment',
         'SAC' => 'Mrstroz\Edi\Segments\SacSegment',
+        'SLN' => 'Mrstroz\Edi\Segments\SlnSegment',
         'SE' => 'Mrstroz\Edi\Segments\SeSegment',
         'ST' => 'Mrstroz\Edi\Segments\StSegment',
         'TC2' => 'Mrstroz\Edi\Segments\Tc2Segment',
@@ -94,18 +99,18 @@ class Edi
             $identifier = strtoupper($elements[0]);
 
             // only inspect each element if the subelement separator is present in the string
-            if (strpos($segment, $subelement_separator) !== FALSE && $identifier != 'ISA') {
+            if (strpos($segment, $subelement_separator) !== false && $identifier != 'ISA') {
                 foreach ($elements as &$element) {
-                    if (strpos($segment, $subelement_separator) !== FALSE) {
+                    if (strpos($segment, $subelement_separator) !== false) {
                         $element = explode($subelement_separator, $element);
                     }
                 }
                 unset($element);
             }
 
-            /* This is a ginormous switch statement, but necessarily so. 
+            /* This is a ginormous switch statement, but necessarily so.
             * The idea is that the parser will, for each transaction set
-            * in the ISA envelope, create a new Document instance with 
+            * in the ISA envelope, create a new Document instance with
             * the containing ISA and GS envelopes copied in.
             */
             switch ($identifier) {
