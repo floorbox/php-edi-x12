@@ -45,6 +45,7 @@ class Edi
         'R4' => 'Mrstroz\Edi\Segments\R4Segment',
         'REF' => 'Mrstroz\Edi\Segments\RefSegment',
         'SAC' => 'Mrstroz\Edi\Segments\SacSegment',
+        'SCH' => 'Mrstroz\Edi\Segments\SchSegment',
         'SLN' => 'Mrstroz\Edi\Segments\SlnSegment',
         'SE' => 'Mrstroz\Edi\Segments\SeSegment',
         'ST' => 'Mrstroz\Edi\Segments\StSegment',
