@@ -41,6 +41,7 @@ class Edi
         'PID' => 'Mrstroz\Edi\Segments\PidSegment',
         'PO1' => 'Mrstroz\Edi\Segments\Po1Segment',
         'Q2' => 'Mrstroz\Edi\Segments\Q2Segment',
+        'QTY' => 'Mrstroz\Edi\Segments\QtySegment',
         'R4' => 'Mrstroz\Edi\Segments\R4Segment',
         'REF' => 'Mrstroz\Edi\Segments\RefSegment',
         'SAC' => 'Mrstroz\Edi\Segments\SacSegment',
@@ -110,10 +111,10 @@ class Edi
             }
 
             /* This is a ginormous switch statement, but necessarily so.
-            * The idea is that the parser will, for each transaction set
-            * in the ISA envelope, create a new Document instance with
-            * the containing ISA and GS envelopes copied in.
-            */
+             * The idea is that the parser will, for each transaction set
+             * in the ISA envelope, create a new Document instance with
+             * the containing ISA and GS envelopes copied in.
+             */
             switch ($identifier) {
                 case 'ISA':
                     $current_isa = array('isa' => $elements);
