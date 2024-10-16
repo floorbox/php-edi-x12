@@ -59,18 +59,16 @@ class Edi
      * Parse an EDI document. Data will be returned as an array of instances of
      * EDI\Document. Document should contain exactly one ISA/IEA envelope.
      */
-    public static function parse($res)
+    public static function parse($res): array
     {
-        $string = '';
-        $segments = array();
+        $segments = [];
 
         if (!$res) {
             throw new \Exception('No resource or string passed to parse()');
         }
 
-        $documents = array();
+        $documents = [];
         if (is_resource($res)) {
-            $res = $data;
             $meta = stream_get_meta_data($res);
             if (!$meta['seekable']) {
                 throw new \Exception('Stream is not seekable');
@@ -92,7 +90,6 @@ class Edi
             $raw_segments = explode($segment_terminator, $data);
         }
 
-        $isas = array();
         $current_isa = null;
         $current_gs = null;
         $current_st = null;
@@ -118,19 +115,19 @@ class Edi
              */
             switch ($identifier) {
                 case 'ISA':
-                    $current_isa = array('isa' => $elements);
+                    $current_isa = ['isa' => $elements];
                     break;
                 case 'GS':
-                    $current_gs = array('gs' => $elements);
+                    $current_gs = ['gs' => $elements];
                     break;
                 case 'ST':
-                    $current_st = array('st' => $elements);
+                    $current_st = ['st' => $elements];
                     break;
                 case 'SE':
                     assert($current_gs != null, 'GS data structure isset');
                     $current_st['se'] = $elements;
                     if (!isset($current_gs['txn_sets'])) {
-                        $current_gs['txn_sets'] = array();
+                        $current_gs['txn_sets'] = [];
                     }
                     array_push($current_gs['txn_sets'], $current_st);
                     $current_st = null;
@@ -139,7 +136,7 @@ class Edi
                     assert($current_isa != null, 'ST data structure isset');
                     $current_gs['ge'] = $elements;
                     if (!isset($current_isa['func_groups'])) {
-                        $current_isa['func_groups'] = array();
+                        $current_isa['func_groups'] = [];
                     }
                     array_push($current_isa['func_groups'], $current_gs);
                     $current_gs = null;
@@ -149,17 +146,17 @@ class Edi
                     foreach ($current_isa['func_groups'] as $gs) {
                         foreach ($gs['txn_sets'] as $st) {
                             $segments = array_merge(
-                                array(
+                                [
                                     $current_isa['isa'],
                                     $gs['gs'],
                                     $st['st']
-                                ),
+                                ],
                                 $st['segments'],
-                                array(
+                                [
                                     $st['se'],
                                     $gs['ge'],
                                     $current_isa['iea']
-                                )
+                                ]
                             );
                             $document = new Document($segments);
                             array_push($documents, $document);
@@ -168,7 +165,7 @@ class Edi
                     break;
                 default:
                     if (!isset($current_st['segments'])) {
-                        $current_st['segments'] = array();
+                        $current_st['segments'] = [];
                     }
                     array_push($current_st['segments'], $elements);
                     break;
