@@ -20,7 +20,7 @@ class CtpSegment extends Segment
         6 => '',
         7 => '',
         8 => '',
-        9 => 'basic_of_unit_price_code',
+        9 => 'basis_of_unit_price_code',
         10 => 'condition_value',
     ];
 }
