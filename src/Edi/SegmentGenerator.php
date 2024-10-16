@@ -24,4 +24,13 @@ class SegmentGenerator
         }
         return '';
     }
+
+    public static function createSegment(Segment $segment): array
+    {
+        $array = [];
+        foreach ((new $segment)->segmentMapping as $key => $value) {
+            $array[$value] = '';
+        }
+        return $array;
+    }
 }

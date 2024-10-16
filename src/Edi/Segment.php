@@ -60,4 +60,9 @@ class Segment implements SegmentInterface
         }
         return implode('*', $content);
     }
+
+    public static function instance(): Segment
+    {
+        return new self();
+    }
 }
