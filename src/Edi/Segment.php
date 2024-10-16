@@ -63,6 +63,6 @@ class Segment implements SegmentInterface
 
     public static function instance(): Segment
     {
-        return new self();
+        return new static();
     }
 }
