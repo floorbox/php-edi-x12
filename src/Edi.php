@@ -13,6 +13,12 @@ class Edi
     public const SUBELEMENT_SEPARATOR_POSITION = 104;
     public const ELEMENT_SEPARATOR_POSITION = 3;
 
+    private const DESCRIPTION_ELEMENT_POSITIONS = [
+        'LIN' => [15],
+        'PID' => [5],
+        'SLN' => [24],
+    ];
+
     public static $segmentMapping = [
         'AMT' => 'Mrstroz\Edi\Segments\AmtSegment',
         'B4' => 'Mrstroz\Edi\Segments\B4Segment',
@@ -100,8 +106,12 @@ class Edi
 
             // only inspect each element if the subelement separator is present in the string
             if (strpos($segment, $subelement_separator) !== false && $identifier != 'ISA') {
-                foreach ($elements as &$element) {
-                    if (strpos($segment, $subelement_separator) !== false) {
+                $description_positions = self::DESCRIPTION_ELEMENT_POSITIONS[$identifier] ?? [];
+
+                foreach ($elements as $position => &$element) {
+                    // Descriptions are simple text, even when they contain the component separator.
+                    if (!in_array($position, $description_positions, true)
+                        && strpos($element, $subelement_separator) !== false) {
                         $element = explode($subelement_separator, $element);
                     }
                 }
